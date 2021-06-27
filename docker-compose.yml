@@ -1,0 +1,27 @@
+#networks:
+#  elemento:
+#    driver: bridge
+#    ipam:
+#      driver: default
+#      config:
+#        - subnet: 172.26.1.0/24
+
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    container_name: c_museek
+#    networks:
+#      elemento:
+#        ipv4_address: 172.26.1.2
+    ports:
+      - target: 5432
+        published: 5433
+        protocol: tcp
+        mode: host
+    environment:
+      - POSTGRES_USER=enrico
+      - POSTGRES_DB=museek_db
+      - POSTGRES_PASSWORD=enrico
+#    volumes:
+#      - ./init_mache.sql:/docker-entrypoint-initdb.d/init_mache.sql

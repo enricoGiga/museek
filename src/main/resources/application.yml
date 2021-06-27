@@ -8,6 +8,18 @@ spring:
       museek
   profiles:
     active: developer
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    show-sql: true
+    open-in-view: false
+    database-platform: ${DB_PLATFORM}
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
 
 eureka:
   client:
