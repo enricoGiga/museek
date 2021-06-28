@@ -1,5 +1,9 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+insert into tipo_annuncio (tipo) values ('usato');
+
+
+
 insert into reparto (nome)
 values ('Tastiere'); --1
 insert into reparto (nome)
@@ -528,15 +532,15 @@ insert into categoria (nome, id_reparto)
 VALUES ('Altri gadget', 12);
 
 
-insert into annuncio ( modello, prezzo, prezzo_su_richiesta, testo, titolo, utente, id_categoria, id_marca)
+insert into annuncio ( modello, prezzo, prezzo_su_richiesta, testo, titolo, utente, id_categoria, id_marca, id_tipo_annuncio)
 values ( 'RC', 2000, false, 'Vendo clarinetto ottimo stato. come nuovo. anno produzione 2011', 'vendo clarinetto sib RC',
-        'enrico.gigante@gmail.com', 101, 'Buffet Crampon');
+        'enrico.gigante@gmail.com', 101, 'Buffet Crampon', 'usato');
 
 
-insert into annuncio (modello, prezzo, prezzo_su_richiesta, testo, titolo, utente, id_categoria, id_marca)
+insert into annuncio (modello, prezzo, prezzo_su_richiesta, testo, titolo, utente, id_categoria, id_marca, id_tipo_annuncio)
 values ('Fender', 2000, false, 'Vendo chitarra acustica super intonata, possibile prova presso verona', 'vendo chitarra acustica fender',
-        'enrico.gigante@gmail.com', 23, 'Casio');
+        'enrico.gigante@gmail.com', 23, 'Casio', 'usato');
 
-insert into annuncio ( modello, prezzo, prezzo_su_richiesta, testo, titolo, utente, id_categoria, id_marca)
+insert into annuncio ( modello, prezzo, prezzo_su_richiesta, testo, titolo, utente, id_categoria, id_marca, id_tipo_annuncio)
 values ( 'CASIO', 2000, false, 'Vendo tastiera come nuova', 'vendo tastiera',
-        'sbrauser@gmail.com', 5, 'Yamaha');
+        'sbrauser@gmail.com', 5, 'Yamaha', 'usato');

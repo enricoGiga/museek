@@ -13,8 +13,5 @@ import javax.persistence.*;
 @Entity
 public class TipoAnnuncio {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer idTipoAnnuncio;
-    @Column( columnDefinition = "varchar(100)")
     String tipo;
 }

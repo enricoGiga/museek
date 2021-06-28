@@ -13,5 +13,5 @@ import javax.persistence.*;
 @Entity
 public class Marca {
     @Id
-    String id;
+    String marca;
 }

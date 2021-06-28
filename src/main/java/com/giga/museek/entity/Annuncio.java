@@ -39,7 +39,11 @@ public class Annuncio {
     private Categoria categoria;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_marca", referencedColumnName = "id")
+    @JoinColumn(name = "id_marca", referencedColumnName = "marca")
     private Marca marca;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_tipo_annuncio", referencedColumnName = "tipo")
+    private TipoAnnuncio tipoAnnuncio;
 }
 

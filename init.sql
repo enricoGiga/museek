@@ -47,7 +47,8 @@ CREATE TABLE public.annuncio (
     titolo character varying(255),
     utente character varying(255),
     id_categoria integer,
-    id_marca character varying(255)
+    id_marca character varying(255),
+    id_tipo_annuncio character varying(255)
 );
 
 
@@ -142,7 +143,7 @@ ALTER SEQUENCE public.immagine_annuncio_id_immagine_annuncio_seq OWNED BY public
 --
 
 CREATE TABLE public.marca (
-    id character varying(255) NOT NULL
+    marca character varying(255) NOT NULL
 );
 
 
@@ -187,34 +188,11 @@ ALTER SEQUENCE public.reparto_id_seq OWNED BY public.reparto.id;
 --
 
 CREATE TABLE public.tipo_annuncio (
-    id_tipo_annuncio integer NOT NULL,
-    tipo character varying(100)
+    tipo character varying(255) NOT NULL
 );
 
 
 ALTER TABLE public.tipo_annuncio OWNER TO enrico;
-
---
--- Name: tipo_annuncio_id_tipo_annuncio_seq; Type: SEQUENCE; Schema: public; Owner: enrico
---
-
-CREATE SEQUENCE public.tipo_annuncio_id_tipo_annuncio_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.tipo_annuncio_id_tipo_annuncio_seq OWNER TO enrico;
-
---
--- Name: tipo_annuncio_id_tipo_annuncio_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: enrico
---
-
-ALTER SEQUENCE public.tipo_annuncio_id_tipo_annuncio_seq OWNED BY public.tipo_annuncio.id_tipo_annuncio;
-
 
 --
 -- Name: categoria id; Type: DEFAULT; Schema: public; Owner: enrico
@@ -238,20 +216,13 @@ ALTER TABLE ONLY public.reparto ALTER COLUMN id SET DEFAULT nextval('public.repa
 
 
 --
--- Name: tipo_annuncio id_tipo_annuncio; Type: DEFAULT; Schema: public; Owner: enrico
---
-
-ALTER TABLE ONLY public.tipo_annuncio ALTER COLUMN id_tipo_annuncio SET DEFAULT nextval('public.tipo_annuncio_id_tipo_annuncio_seq'::regclass);
-
-
---
 -- Data for Name: annuncio; Type: TABLE DATA; Schema: public; Owner: enrico
 --
 
-COPY public.annuncio (id, modello, prezzo, prezzo_su_richiesta, testo, titolo, utente, id_categoria, id_marca) FROM stdin;
-df982fbb-1cf7-4d42-8bd9-9c15b6f1a6cd	RC	2000	f	Vendo clarinetto ottimo stato. come nuovo. anno produzione 2011	vendo clarinetto sib RC	enrico.gigante@gmail.com	101	Buffet Crampon
-4b5cde1a-a78f-493b-b2a0-ebbab7cb51d1	Fender	2000	f	Vendo chitarra acustica super intonata, possibile prova presso verona	vendo chitarra acustica fender	enrico.gigante@gmail.com	23	Casio
-0e8c5719-cf4b-447d-bdbe-d0424f7d243e	CDP-s100	2000	f	Vendo tastiera come nuova	vendo tastiera	sbrauser@gmail.com	5	Yamaha
+COPY public.annuncio (id, modello, prezzo, prezzo_su_richiesta, testo, titolo, utente, id_categoria, id_marca, id_tipo_annuncio) FROM stdin;
+e0152a75-1d0c-4558-a98d-047e06416773	RC	2000	f	Vendo clarinetto ottimo stato. come nuovo. anno produzione 2011	vendo clarinetto sib RC	enrico.gigante@gmail.com	101	Buffet Crampon	usato
+02153d38-ec1a-489e-b7e1-7f18ed17d8d8	Fender	2000	f	Vendo chitarra acustica super intonata, possibile prova presso verona	vendo chitarra acustica fender	enrico.gigante@gmail.com	23	Casio	usato
+1ced759c-19c5-40b0-aca5-81a9029f2d0a	CASIO	2000	f	Vendo tastiera come nuova	vendo tastiera	sbrauser@gmail.com	5	Yamaha	usato
 \.
 
 
@@ -514,7 +485,7 @@ COPY public.immagine_annuncio (id_immagine_annuncio, data, id_annuncio) FROM std
 -- Data for Name: marca; Type: TABLE DATA; Schema: public; Owner: enrico
 --
 
-COPY public.marca (id) FROM stdin;
+COPY public.marca (marca) FROM stdin;
 10mfan
 2Box
 3Leaf Audio
@@ -5382,7 +5353,8 @@ COPY public.reparto (id, nome) FROM stdin;
 -- Data for Name: tipo_annuncio; Type: TABLE DATA; Schema: public; Owner: enrico
 --
 
-COPY public.tipo_annuncio (id_tipo_annuncio, tipo) FROM stdin;
+COPY public.tipo_annuncio (tipo) FROM stdin;
+usato
 \.
 
 
@@ -5415,13 +5387,6 @@ SELECT pg_catalog.setval('public.reparto_id_seq', 12, true);
 
 
 --
--- Name: tipo_annuncio_id_tipo_annuncio_seq; Type: SEQUENCE SET; Schema: public; Owner: enrico
---
-
-SELECT pg_catalog.setval('public.tipo_annuncio_id_tipo_annuncio_seq', 1, false);
-
-
---
 -- Name: annuncio annuncio_pkey; Type: CONSTRAINT; Schema: public; Owner: enrico
 --
 
@@ -5450,7 +5415,7 @@ ALTER TABLE ONLY public.immagine_annuncio
 --
 
 ALTER TABLE ONLY public.marca
-    ADD CONSTRAINT marca_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT marca_pkey PRIMARY KEY (marca);
 
 
 --
@@ -5466,7 +5431,15 @@ ALTER TABLE ONLY public.reparto
 --
 
 ALTER TABLE ONLY public.tipo_annuncio
-    ADD CONSTRAINT tipo_annuncio_pkey PRIMARY KEY (id_tipo_annuncio);
+    ADD CONSTRAINT tipo_annuncio_pkey PRIMARY KEY (tipo);
+
+
+--
+-- Name: annuncio fk93sa22u8hltqc8pjtct6ha04f; Type: FK CONSTRAINT; Schema: public; Owner: enrico
+--
+
+ALTER TABLE ONLY public.annuncio
+    ADD CONSTRAINT fk93sa22u8hltqc8pjtct6ha04f FOREIGN KEY (id_tipo_annuncio) REFERENCES public.tipo_annuncio(tipo);
 
 
 --
@@ -5482,7 +5455,7 @@ ALTER TABLE ONLY public.immagine_annuncio
 --
 
 ALTER TABLE ONLY public.annuncio
-    ADD CONSTRAINT fkexdysjxvwjkqekmw9ycsvu6nv FOREIGN KEY (id_marca) REFERENCES public.marca(id);
+    ADD CONSTRAINT fkexdysjxvwjkqekmw9ycsvu6nv FOREIGN KEY (id_marca) REFERENCES public.marca(marca);
 
 
 --
