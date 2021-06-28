@@ -14,11 +14,11 @@ import javax.persistence.*;
 public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer idCategoria;
+    Integer id;
     @Column(nullable = false)
     String nome;
     @ManyToOne
-    @JoinColumn(name = "id_reparto")
+    @JoinColumn(name = "id_reparto", referencedColumnName = "id")
     private Reparto reparto;
 
 }

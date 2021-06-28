@@ -15,7 +15,7 @@ import java.util.Set;
 public class Reparto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer idReparto;
+    Integer id;
     @Column(nullable = false)
     String nome;
     @OneToMany(mappedBy="reparto", cascade = CascadeType.REMOVE)

@@ -1,9 +1,11 @@
 package com.giga.museek.entity;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -14,18 +16,30 @@ import java.util.Set;
 @Entity
 public class Annuncio {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idAnnuncio;
+    @Column(updatable = false, nullable = false, columnDefinition = "uuid DEFAULT uuid_generate_v4()")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
-    private String owner;
+    private String utente;
 
     private String modello;
     private String titolo;
-    @Lob
+
     private String testo;
     private Long prezzo;
     private boolean prezzoSuRichiesta;
 
     @OneToMany(mappedBy="annuncio", cascade = CascadeType.REMOVE)
     private Set<ImmagineAnnuncio> immagineAnnuncio;
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_categoria", referencedColumnName = "id")
+    private Categoria categoria;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_marca", referencedColumnName = "id")
+    private Marca marca;
 }
+

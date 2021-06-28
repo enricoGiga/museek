@@ -13,8 +13,5 @@ import javax.persistence.*;
 @Entity
 public class Marca {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer idMarca;
-    @Column(nullable = false)
-    String nome;
+    String id;
 }

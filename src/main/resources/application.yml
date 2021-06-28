@@ -19,7 +19,7 @@ spring:
     database-platform: ${DB_PLATFORM}
     generate-ddl: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
 
 eureka:
   client:
