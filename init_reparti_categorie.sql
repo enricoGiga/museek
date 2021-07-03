@@ -536,7 +536,6 @@ insert into annuncio ( modello, prezzo, prezzo_su_richiesta, testo, titolo, uten
 values ( 'RC', 2000, false, 'Vendo clarinetto ottimo stato. come nuovo. anno produzione 2011', 'vendo clarinetto sib RC',
         'enrico.gigante@gmail.com', 101, 'Buffet Crampon', 'usato');
 
-
 insert into annuncio (modello, prezzo, prezzo_su_richiesta, testo, titolo, utente, id_categoria, id_marca, id_tipo_annuncio)
 values ('Fender', 2000, false, 'Vendo chitarra acustica super intonata, possibile prova presso verona', 'vendo chitarra acustica fender',
         'enrico.gigante@gmail.com', 23, 'Casio', 'usato');
