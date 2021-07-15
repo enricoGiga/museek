@@ -1,9 +1,11 @@
 package com.giga.museek.entity;
 
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+//import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 import java.util.Set;
 import java.util.UUID;
 
@@ -12,13 +14,14 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "annuncio")
-@Entity
+//@Table(name = "annuncio")
+//@Entity
+@Document(collation = "annuncio")
 public class Annuncio {
     @Id
-    @Column(updatable = false, nullable = false, columnDefinition = "uuid DEFAULT uuid_generate_v4()")
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+//    @Column(updatable = false, nullable = false, columnDefinition = "uuid DEFAULT uuid_generate_v4()")
+//    @GeneratedValue(generator = "UUID")
+//    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     private String utente;
@@ -30,20 +33,21 @@ public class Annuncio {
     private Long prezzo;
     private boolean prezzoSuRichiesta;
 
-    @OneToMany(mappedBy="annuncio", cascade = CascadeType.REMOVE)
-    private Set<ImmagineAnnuncio> immagineAnnuncio;
+//    @OneToMany(mappedBy="annuncio", cascade = CascadeType.REMOVE)
+//    private Set<ImmagineAnnuncio> immagineAnnuncio;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_categoria", referencedColumnName = "id")
-    private Categoria categoria;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "id_categoria", referencedColumnName = "id")
+//    private Categoria categoria;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_marca", referencedColumnName = "marca")
-    private Marca marca;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "id_marca", referencedColumnName = "marca")
+//    private Marca marca;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_tipo_annuncio", referencedColumnName = "tipo")
-    private TipoAnnuncio tipoAnnuncio;
+
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "id_tipo_annuncio", referencedColumnName = "tipo")
+//    private TipoAnnuncio tipoAnnuncio;
 }
 

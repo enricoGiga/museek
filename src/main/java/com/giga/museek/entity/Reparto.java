@@ -1,8 +1,9 @@
 package com.giga.museek.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 import java.util.Set;
 
 @Setter
@@ -10,14 +11,14 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "reparto")
-@Entity
+//@Table(name = "reparto")
+//@Entity
 public class Reparto {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    @Column(nullable = false)
+//    @Column(nullable = false)
     String nome;
-    @OneToMany(mappedBy="reparto", cascade = CascadeType.REMOVE)
-    private Set<Categoria> categorias;
+//    @OneToMany(mappedBy="reparto", cascade = CascadeType.REMOVE)
+//    private Set<Categoria> categorias;
 }
