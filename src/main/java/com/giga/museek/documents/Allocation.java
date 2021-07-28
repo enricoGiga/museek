@@ -1,20 +1,24 @@
-package com.giga.museek.entity;
+package com.giga.museek.documents;
 
+import com.giga.museek.entity.Category;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 //import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//@Table(name = "marca")
-//@Entity
-@Document(collation = "marca")
-public class Marca {
+@Document
+// REPARTO
+public class Allocation {
     @Id
-    String marca;
+    String id;
+    List<Category> categories;
+
 }

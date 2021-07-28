@@ -15,10 +15,12 @@ spring:
       database: museek
       username: rootuser
       password: rootpass
-
-
+      auto-index-creation: true
 
 eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_SERVER:http://localhost:8761/eureka}
+logging:
+  level:
+    org.springframework.data.mongodb.core.ReactiveMongoTemplate: debug
