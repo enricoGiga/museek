@@ -1,7 +1,7 @@
 package com.giga.museek.router;
 
 import com.giga.museek.constants.EndPoints;
-import com.giga.museek.handler.BrandHandler;
+import com.giga.museek.handler.AdHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -13,11 +13,11 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
 
 @Configuration
-public class BrandRouter {
+public class AdRouter {
 
 
     @Bean
-    public RouterFunction<ServerResponse> brandStreamRoute(BrandHandler brandHandler) {
+    public RouterFunction<ServerResponse> brandStreamRoute(AdHandler brandHandler) {
         return RouterFunctions
                 .route(GET(EndPoints.BRAND_STREAM).and(accept(MediaType.TEXT_EVENT_STREAM)),
                         brandHandler::getBrandsStream)

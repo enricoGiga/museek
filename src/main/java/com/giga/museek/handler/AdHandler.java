@@ -14,11 +14,11 @@ import java.util.Locale;
 
 
 @Component
-public class BrandHandler {
+public class AdHandler {
     final BrandReactiveRepository brandReactiveRepository;
 
 
-    public BrandHandler(BrandReactiveRepository brandReactiveRepository) {
+    public AdHandler(BrandReactiveRepository brandReactiveRepository) {
         this.brandReactiveRepository = brandReactiveRepository;
 
     }
@@ -28,12 +28,13 @@ public class BrandHandler {
                 .contentType(MediaType.TEXT_EVENT_STREAM)
                 .body(brandReactiveRepository.findAll(), Brand.class);
     }
+
     public Mono<ServerResponse> getBrands(ServerRequest serverRequest) {
         String currentUserId = serverRequest.headers().header("cur_user_id").get(0);
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(
-                       brandReactiveRepository.findAll().sort(Comparator.comparing(obj -> obj.getId().toLowerCase())), Brand.class
+                        brandReactiveRepository.findAll().sort(Comparator.comparing(obj -> obj.getId().toLowerCase())), Brand.class
                 );
     }
 
