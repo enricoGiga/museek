@@ -1,15 +1,16 @@
 package com.giga.museek.handler;
 
 import com.giga.museek.documents.Brand;
-import com.giga.museek.entity.Category;
 import com.giga.museek.repository.BrandReactiveRepository;
-import com.giga.museek.repository.BrandRepository;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
 
 
 @Component
@@ -17,7 +18,7 @@ public class BrandHandler {
     final BrandReactiveRepository brandReactiveRepository;
 
 
-    public BrandHandler(BrandReactiveRepository brandReactiveRepository, BrandRepository brandRepository) {
+    public BrandHandler(BrandReactiveRepository brandReactiveRepository) {
         this.brandReactiveRepository = brandReactiveRepository;
 
     }
@@ -27,6 +28,13 @@ public class BrandHandler {
                 .contentType(MediaType.TEXT_EVENT_STREAM)
                 .body(brandReactiveRepository.findAll(), Brand.class);
     }
-
+    public Mono<ServerResponse> getBrands(ServerRequest serverRequest) {
+        String currentUserId = serverRequest.headers().header("cur_user_id").get(0);
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(
+                       brandReactiveRepository.findAll().sort(Comparator.comparing(obj -> obj.getId().toLowerCase())), Brand.class
+                );
+    }
 
 }

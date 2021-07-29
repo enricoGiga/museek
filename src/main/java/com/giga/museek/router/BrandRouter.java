@@ -20,7 +20,9 @@ public class BrandRouter {
     public RouterFunction<ServerResponse> brandStreamRoute(BrandHandler brandHandler) {
         return RouterFunctions
                 .route(GET(EndPoints.BRAND_STREAM).and(accept(MediaType.TEXT_EVENT_STREAM)),
-                        brandHandler::getBrandsStream);
+                        brandHandler::getBrandsStream)
+                .andRoute(GET(EndPoints.BRANDS).and(accept(MediaType.APPLICATION_JSON)), brandHandler::getBrands);
+
 
     }
 

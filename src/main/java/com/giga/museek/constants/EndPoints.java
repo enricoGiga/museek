@@ -6,5 +6,5 @@ public class EndPoints {
 //    public static final String STREAM_TAILABLE_CATEGORIE = "/stream/tailable/categorie/";
 
     public static final String TEST = "/test";
-    public static final String BRANDS = "brands/";
+    public static final String BRANDS = "/brands/";
 }

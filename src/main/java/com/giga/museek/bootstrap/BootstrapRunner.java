@@ -5,12 +5,9 @@ import com.giga.museek.documents.Brand;
 import com.giga.museek.entity.Category;
 import com.giga.museek.repository.AllocationRepository;
 import com.giga.museek.repository.BrandReactiveRepository;
-import com.giga.museek.repository.BrandRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.ReactiveMongoOperations;
-import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
 import java.util.*;
@@ -20,21 +17,21 @@ import java.util.*;
 // @Component
 public class BootstrapRunner implements CommandLineRunner {
     final BrandReactiveRepository brandReactiveRepository;
-    final BrandRepository brandRepository;
+
     final AllocationRepository allocationRepository;
     final ReactiveMongoOperations reactiveMongoOperations;
-    final MongoOperations mongoOperations;
+
 
     public BootstrapRunner(
             BrandReactiveRepository reactiveRepository,
-            BrandRepository brandRepository, AllocationRepository allocationRepository,
-            ReactiveMongoOperations mongoOperations, MongoOperations mongoOperations1) {
+           AllocationRepository allocationRepository,
+            ReactiveMongoOperations mongoOperations) {
         this.brandReactiveRepository = reactiveRepository;
-        this.brandRepository = brandRepository;
+
 
         this.allocationRepository = allocationRepository;
         this.reactiveMongoOperations = mongoOperations;
-        this.mongoOperations = mongoOperations1;
+
     }
 
     @Override
@@ -44,10 +41,10 @@ public class BootstrapRunner implements CommandLineRunner {
         insertAllocations();
 
         //mongoOperations.createCollection(Brand.class);
-        //createBrandReactiveCollection();
+        createBrandReactiveCollection();
 
-        insertBrand();
-        // insertBrandsReactive();
+        //insertBrand();
+         insertBrandsReactive();
 
 
     }
@@ -72,10 +69,10 @@ public class BootstrapRunner implements CommandLineRunner {
         return new ArrayList<T>(set);
     }
 
-    private void insertBrand() {
-
-        brandRepository.saveAll(getBrands());
-    }
+//    private void insertBrand() {
+//
+//        brandRepository.saveAll(getBrands());
+//    }
 
     private void insertBrandsReactive() {
         Flux<Brand> brandsFlux = getBrandsFlux();
