@@ -1,53 +1,112 @@
 package com.giga.museek.bootstrap;
 
 import com.giga.museek.documents.Allocation;
+import com.giga.museek.documents.Brand;
 import com.giga.museek.entity.Category;
 import com.giga.museek.repository.AllocationRepository;
+import com.giga.museek.repository.BrandReactiveRepository;
+import com.giga.museek.repository.BrandRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.ReactiveMongoOperations;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 
-import java.util.List;
+import java.util.*;
 
 @Slf4j
-@Component
+
+// @Component
 public class BootstrapRunner implements CommandLineRunner {
-
-
+    final BrandReactiveRepository brandReactiveRepository;
+    final BrandRepository brandRepository;
     final AllocationRepository allocationRepository;
-    final ReactiveMongoTemplate mongoTemplate;
-    final ReactiveMongoOperations mongoOperations;
+    final ReactiveMongoOperations reactiveMongoOperations;
+    final MongoOperations mongoOperations;
 
     public BootstrapRunner(
-                           AllocationRepository allocationRepository, ReactiveMongoTemplate mongoTemplate, ReactiveMongoOperations mongoOperations) {
+            BrandReactiveRepository reactiveRepository,
+            BrandRepository brandRepository, AllocationRepository allocationRepository,
+            ReactiveMongoOperations mongoOperations, MongoOperations mongoOperations1) {
+        this.brandReactiveRepository = reactiveRepository;
+        this.brandRepository = brandRepository;
 
         this.allocationRepository = allocationRepository;
-        this.mongoTemplate = mongoTemplate;
-        this.mongoOperations = mongoOperations;
+        this.reactiveMongoOperations = mongoOperations;
+        this.mongoOperations = mongoOperations1;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
-        createCappedCollection();
+        createAllocationCollection();
         insertAllocations();
+
+        //mongoOperations.createCollection(Brand.class);
+        //createBrandReactiveCollection();
+
+        insertBrand();
+        // insertBrandsReactive();
+
 
     }
 
-    private void createCappedCollection() {
-        mongoOperations.dropCollection(Allocation.class);
-        mongoOperations.collectionExists(Allocation.class);
+    private void createBrandReactiveCollection() {
+        reactiveMongoOperations.dropCollection(Brand.class);
+        reactiveMongoOperations.collectionExists(Brand.class);
 
-        if (mongoOperations.collectionExists(Allocation.class).block() != null && Boolean.FALSE.equals(mongoOperations.collectionExists(Allocation.class).block())) {
-            mongoOperations.createCollection(Allocation.class).subscribe();
+        if (Boolean.FALSE.equals(reactiveMongoOperations.collectionExists(Brand.class).block())) {
+            reactiveMongoOperations.createCollection(Brand.class).subscribe();
         }
 
-        insertAllocations();
-//        if (mongoOperations.collectionExists(Reparto.class).block() != null && Boolean.FALSE.equals(mongoOperations.collectionExists(Reparto.class).block())) {
-//            mongoOperations.createCollection(Reparto.class, CollectionOptions.empty().maxDocuments(20).capped().size(2000)).subscribe();
-//        }
+
+    }
+
+    @SafeVarargs
+    public final <T> List<T> union(List<T>... lists) {
+        Set<T> set = new HashSet<T>();
+        Arrays.stream(lists).forEach(set::addAll);
+
+
+        return new ArrayList<T>(set);
+    }
+
+    private void insertBrand() {
+
+        brandRepository.saveAll(getBrands());
+    }
+
+    private void insertBrandsReactive() {
+        Flux<Brand> brandsFlux = getBrandsFlux();
+        brandReactiveRepository
+                .insert(brandsFlux)
+                .flatMap(brandReactiveRepository::save).subscribe();
+
+    }
+
+    private Flux<Brand> getBrandsFlux() {
+        List<Brand> brands = getBrands();
+        return Flux.fromIterable(brands);
+    }
+
+    private List<Brand> getBrands() {
+        BrandLists brandLists = new BrandLists();
+        BrandLists2 brandLists2 = new BrandLists2();
+        BrandLists3 brandLists3 = new BrandLists3();
+        BrandLists4 brandLists4 = new BrandLists4();
+        BrandLists5 brandLists5 = new BrandLists5();
+        return union(brandLists.getBrands(), brandLists2.getBrands(), brandLists3.getBrands(),
+                brandLists4.getBrands(), brandLists5.getBrands());
+    }
+
+    private void createAllocationCollection() {
+        reactiveMongoOperations.dropCollection(Allocation.class);
+        reactiveMongoOperations.collectionExists(Allocation.class);
+
+        if (Boolean.FALSE.equals(reactiveMongoOperations.collectionExists(Allocation.class).block())) {
+            reactiveMongoOperations.createCollection(Allocation.class).subscribe();
+        }
 
 
     }
@@ -70,6 +129,7 @@ public class BootstrapRunner implements CommandLineRunner {
         );
         allocationRepository.saveAll(allocations);
     }
+
     private List<Category> getTastiere() {
         return List.of(
                 new Category("Synth a tastiera / Modulari"),
@@ -374,8 +434,6 @@ public class BootstrapRunner implements CommandLineRunner {
                 new Category("Cavi audio e adattatori")
         );
     }
-
-
 
 
 //    public void dataSetupForCappedCollection() {

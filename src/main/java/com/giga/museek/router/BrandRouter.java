@@ -17,7 +17,7 @@ public class BrandRouter {
 
 
     @Bean
-    public RouterFunction<ServerResponse> annuncioStreamRoute(BrandHandler brandHandler) {
+    public RouterFunction<ServerResponse> brandStreamRoute(BrandHandler brandHandler) {
         return RouterFunctions
                 .route(GET(EndPoints.BRAND_STREAM).and(accept(MediaType.TEXT_EVENT_STREAM)),
                         brandHandler::getBrandsStream);
